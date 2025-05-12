@@ -1,0 +1,55 @@
+SELECT * FROM plos_keytask_ready.plos_key_tasks ;
+
+SELECT COUNT(*) AS total_rows FROM plos_keytask_ready.plos_key_tasks;
+
+SELECT * FROM plos_keytask_ready.plos_key_tasksGROUP BY doi;
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks ADD COLUMN proofDeliveryStatus VARCHAR(100), ADD COLUMN submittedBy VARCHAR(100);
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks ADD COLUMN `submittedDate` DATETIME;
+  
+DESCRIBE plos_keytask_ready.plos_key_tasks;
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks ADD COLUMN shortCode VARCHAR(100) AFTER id, ADD COLUMN doi VARCHAR(255) AFTER shortCode;
+
+UPDATE plos_keytask_ready.plos_key_tasks SET
+  taskName = JSON_UNQUOTE(JSON_EXTRACT(data, '$[0].taskName')),
+  receivedAt = JSON_UNQUOTE(JSON_EXTRACT(data, '$[0].receivedAt'));
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+SET SQL_SAFE_UPDATES = 1;
+
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks
+ADD COLUMN taskName  VARCHAR(100) AFTER id,
+
+
+ADD COLUMN receivedAt   DATETIME AFTER shortCode;
+
+
+Describe  plos_keytask_ready.plos_key_tasks;
+
+DELETE FROM plos_keytask_ready.plos_key_tasks;
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks
+ADD COLUMN status VARCHAR(20) DEFAULT 'pending';
+
+
+SHOW COLUMNS FROM plos_keytask_ready.plos_key_tasks LIKE 'status';
+
+SELECT id, status FROM plos_keytask_ready.plos_key_tasks WHERE id = [your_task_id];
+
+
+ALTER TABLE plos_keytask_ready.plos_key_tasks ADD COLUMN isSubmitted TINYINT(1) DEFAULT 0;
+
+SELECT * FROM plos_keytask_ready.plos_key_tasks WHERE isSubmitted = 1;
+
+DESCRIBE plos_keytask_ready.plos_key_tasks;
+
+SELECT * FROM plos_keytask_ready.plos_key_tasks WHERE id = 1;
+
+SELECT * FROM plos_key_tasks WHERE id = 4;
+
+SELECT id, status, isSubmitted FROM plos_keytask_ready.plos_key_tasks WHERE id = 4;
